@@ -1,17 +1,40 @@
-import React from 'react';
+import React, {Component} from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import {Provider} from 'react-redux'
+import store from "./store";
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+// Router
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+import Main from './Components/main';
+import NotFound from './Components/404'
+
+class App extends Component {
+
+    render(){
+
+      return (
+        <Provider store={store}>
+          <Router>
+          {/* <Header onInputChange={this.onInputChange} /> */}
+            <Switch>
+              <Route path="/" exact component={Main} />
+              {/* <Route path="/add-contact" exact component={AddNewContact} /> */}
+              {/* <Route path="/editContact" exact component={EditContact} /> */}
+              <Route component={NotFound} />
+            </Switch>
+            {/* <Footer /> */}
+          </Router>
+          </Provider>
+      )
+    }
+
+}
+ReactDOM.render(<App />, document.getElementById("root"));
+
+
