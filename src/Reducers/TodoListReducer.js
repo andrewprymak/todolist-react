@@ -8,6 +8,10 @@ const TodoListReducer = (state = initialState, action) => {
         return {
             List: action.payload
         }
+        case "ADD_NEW_TIP": 
+        return {
+            List: action.payload
+        }
         default: 
             return state;
     }

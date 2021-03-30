@@ -1,9 +1,35 @@
 import React, {Component, Fragment} from "react";
 // import ReactDOM from 'react-dom';
 // import { Link } from "react-router-dom";
+import {saveData} from "../Services/api-service";
 import {connect} from "react-redux";
+import {addNewTip} from "../Actions/TodoListActions"
 
 class Main extends Component {
+
+    state = {
+        "Tip": ""
+    }
+    getTip = (event) => {
+        this.setState({
+            Tip: event.target.value
+        })
+    }
+    addNewTip = (event) => {
+        event.preventDefault();
+        const { Tip } = this.state;
+        // let Created = Date.now();
+        // const Id = uuidv4();
+        const newTip = { Tip };
+        const { List } = this.props;
+        addNewTip(List);
+        List.push (newTip);
+        saveData(List);
+        this.setState({
+            isRedirect: true
+        })
+
+    }
 
 render(){
     return(
@@ -14,8 +40,8 @@ render(){
                     <div className="col-md-12">
                          <div className="card px-3">
                             <div className="card-body">
-                                <h4 className="card-title">Awesome Todo list</h4>
-                                    <div className="add-items d-flex"> <input type="text" className="form-control todo-list-input" placeholder="What do you need to do today?"></input> <button className="add btn btn-primary font-weight-bold todo-list-add-btn">Add</button> </div>
+                                <h4 className="card-title">React Todo list</h4>
+                                    <div className="add-items d-flex"> <input type="text" className="form-control todo-list-input" onSubmit={this.addNewTip} placeholder="What do you need to do today?"></input> <button className="add btn btn-primary font-weight-bold todo-list-add-btn">Add</button> </div>
                                         <div className="list-wrapper">
                                             <ul className="d-flex flex-column-reverse todo-list">
                                                 <li>
@@ -49,4 +75,12 @@ render(){
 }
 }
 
-export default connect() (Main);
+const mapStateToProps = ({ TodoListReducer }) => {
+    const { List } = TodoListReducer;
+    return { List }
+}
+const mapDispatchToProps = {
+    addNewTip
+}
+export default connect(mapStateToProps, mapDispatchToProps)(Main)
+// export default connect() (Main);

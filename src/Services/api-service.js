@@ -15,13 +15,13 @@ export const updateDatabase = () => {
       return data;
   }
 
-  export const saveData = (contactList) => {
+  export const saveData = (todoList) => {
    const responce = fetch(URL, {
       method: "PUT",
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify(contactList),
+      body: JSON.stringify(todoList),
     }).then(responce => {
       return responce
     }).catch(err => {
